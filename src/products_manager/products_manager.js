@@ -32,13 +32,13 @@ class ProductsManager {
         return this.products;
     }
 
-    getProductById(id) {
-        const product = this.products.find((product) => product.id == id);
+    async getProductById(id) {
+        const product = this.products.find(product => product.id == parseInt(id, 10));
         if (!product) {
             console.error(`Producto con ID ${id} no encontrado.`);
-            return null;
+            return { product: null, err: `Producto con ID ${id} no encontrado.` };
         }
-        return product;
+        return { product: product, err: null };
     }
 
     async addProduct(product) {
@@ -49,18 +49,20 @@ class ProductsManager {
         this.products.push(newProduct);
         await this.saveProducts();
         console.log(`Producto con ID ${newProduct.id} agregado correctamente.`);
+        return newProduct
     }
 
     async updateProduct(id, updatedProduct) {
         const index = this.products.findIndex((p) => p.id == id);
         if (index === -1) {
             console.error(`Producto con ID ${id} no encontrado.`);
-            return;
+            return {updatedProduct: null, err: `Producto con ID ${id} no encontrado.`};
         }
 
         this.products[index] = { ...this.products[index], ...updatedProduct };
         await this.saveProducts();
         console.log(`Producto con ID ${id} actualizado correctamente.`);
+        return {updatedProduct: this.products[index], err: null};
     }
 
     async deleteProduct(id) {

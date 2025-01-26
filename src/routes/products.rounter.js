@@ -22,11 +22,14 @@ productsRouter.get("/", async (req, res) => {
 // Endpoint GET para buscar un producto por ID
 productsRouter.get("/:pid", async (req, res) => {
     try {
-        const product = await productsManager.getProductById(req.params.pid);
-        if (!product) {
-            return res.status(404).json({ error: "Producto no encontrado." });
+        const { pid } = req.params;
+        const { product, err } = await productsManager.getProductById(pid);
+
+        if (err) {
+            return res.status(404).json({ message: err });
         }
-        res.json(product);
+        
+        res.status(200).json(product);
     } catch (error) {
         console.error(`Error al buscar el producto con ID ${req.params.pid}:`, error);
         res.status(500).json({ error: "Error al buscar el producto." });
@@ -50,11 +53,11 @@ productsRouter.post("/", async (req, res) => {
 // Endpoint PUT para actualizar un producto existente
 productsRouter.put("/:pid", async (req, res) => {
     try {
-        const updatedProduct = await productsManager.updateProduct(req.params.pid, req.body);
-        if (!updatedProduct) {
-            return res.status(404).json({ error: "Producto no encontrado para actualizar." });
+        const { updatedProduct, err } = await productsManager.updateProduct(req.params.pid, req.body);
+        if (err) {
+            return res.status(404).json({ error: err });
         }
-        res.json({
+        res.status(200).json({
             message: "Producto actualizado correctamente.",
             product: updatedProduct,
         });
