@@ -29,9 +29,6 @@ app.use('/', viewsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 
-// Lista de productos
-const products = []
-
 // Websockets
 io.on('connection', (socket) => {
     // Logeo las conexiones
