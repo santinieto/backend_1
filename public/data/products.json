@@ -6,9 +6,10 @@
     "discount": 13.5,
     "category": "Calzado",
     "description": "Calzado para ocasiones formales",
-    "image": "image-2.jpg",
+    "thumbnails": "image-2.jpg",
     "stock": 10,
-    "code": "ZAP-001"
+    "code": "ZAP-001",
+    "status": true
   },
   {
     "id": 4,
@@ -17,8 +18,32 @@
     "discount": 13.5,
     "category": "Calzado",
     "description": "Calzado para ocasiones formales",
-    "image": "image-2.jpg",
+    "thumbnails": "image-2.jpg",
     "stock": 10,
-    "code": "ZAP-001"
+    "code": "ZAP-001",
+    "status": true
+  },
+  {
+    "id": 5,
+    "name": "Gorra roja",
+    "price": 3500,
+    "discount": 5,
+    "category": "Vestimenta",
+    "description": "Prenda de verano para la cabeza",
+    "stock": 20,
+    "code": "GOR-004",
+    "status": "Disponible"
+  },
+  {
+    "id": 6,
+    "name": "Gorra roja",
+    "price": 5000,
+    "discount": 5,
+    "category": "Vestimenta",
+    "description": "Prenda de verano para la cabeza",
+    "thumbnails": "image-2520.jpg",
+    "stock": 20,
+    "code": "GOR-004",
+    "status": "Disponible"
   }
 ]

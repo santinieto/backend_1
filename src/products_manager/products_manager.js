@@ -111,9 +111,10 @@ const main = async () => {
         discount: 25.0,
         category: "Ropa",
         description: "Remera de verano",
-        image: "image-1.jpg",
+        thumbnails: "image-1.jpg",
         stock: 30,
         code: "REM-001",
+        status: true
     });
 
     // Obtener un producto por ID

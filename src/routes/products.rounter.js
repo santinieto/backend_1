@@ -39,6 +39,22 @@ productsRouter.get("/:pid", async (req, res) => {
 // Endpoint POST para agregar un producto
 productsRouter.post("/", async (req, res) => {
     try {
+        // Todos los campos son obligatorios a excepcion de thumbnails
+        const requiredFields = [
+            "name", "price", "discount", "category", 
+            "description", "stock", "code", "status"
+        ];
+        
+        // Verificar si todos los campos obligatorios existen en el body
+        const missingFields = requiredFields.filter(field => !(field in req.body));
+        
+        if (missingFields.length > 0) {
+            return res.status(400).json({
+                error: "Faltan campos obligatorios.",
+                missingFields
+            });
+        }
+        
         const newProduct = await productsManager.addProduct(req.body);
         res.status(201).json({
             message: "Producto agregado correctamente.",
