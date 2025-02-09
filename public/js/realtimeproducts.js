@@ -65,12 +65,12 @@ const main = () => {
     socket.on('products history', (products) => {
         $productBox.innerHTML = "";
         products.forEach(({ id, name, price, discount, category, description, thumbnails, stock, code, status }) => {
-            const imageUrl = (thumbnails && thumbnails !== "-") ? thumbnails : "https://via.placeholder.com/150?text=No+Image";
+            const imageUrl = (thumbnails && thumbnails !== "-") ? thumbnails : "img/image-not-found.jpg";
 
             $productBox.innerHTML += `
                 <div class="col-md-4 mb-4" style="margin: auto">
                     <div class="card shadow-sm">
-                        <img src="${imageUrl}" class="card-img-top" alt="Imagen de ${name}" style="height: 200px; object-fit: cover;">
+                        <img src="${imageUrl}" class="card-img-top" alt="Imagen de ${name}" style="height: 400px; object-fit: cover;">
                         <div class="card-body">
                             <h5 class="card-title">${name} (${id})</h5>
                             <p class="card-text"><strong>Categoría:</strong> ${category}</p>
