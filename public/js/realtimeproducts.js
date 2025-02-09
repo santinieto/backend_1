@@ -10,13 +10,22 @@ function deleteProduct(id) {
     socket.emit("delete product", id)
 }
 
-const showNewUserNotification = (id) => {
+const showNewProductNotification = (productName) => {
     Toastify({
-        text: `${id} se ha unido al chat!`,
+        text: `Se agrego el producto "${productName}" a la lista!`,
         duration: 3000
         }).showToast();
 }
 
+const showNewUserNotification = (id) => {
+    Toastify({
+        text: `${id} ha ingresado al sistema!`,
+        duration: 3000,
+        style: {
+            background: "linear-gradient(to right, #00b09b, #96c93d)",
+        },
+        }).showToast();
+}
 
 const main = () => {
     $productBox = document.getElementById("products-box")
@@ -30,6 +39,7 @@ const main = () => {
         showNewUserNotification(id)
     });
     
+    // Obtengo la informacion del producto que se va a agregar
     $productForm.addEventListener("submit", (event) => {
         event.preventDefault();
         const product = {
@@ -45,6 +55,11 @@ const main = () => {
         };
         addProduct(product)
     });
+    
+    // Notificacion de producto nuevo
+    socket.on("new product", (productName) => {
+        showNewProductNotification(productName)
+    })
 
     // Actualizo el historial de productos
     socket.on('products history', (products) => {

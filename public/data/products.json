@@ -178,5 +178,53 @@
     "stock": 60,
     "code": "TER-009",
     "status": true
+  },
+  {
+    "id": 16,
+    "name": "Servilleta",
+    "price": 100,
+    "discount": 0,
+    "category": "Otros",
+    "description": "Servilleta para limpiarse",
+    "thumbnails": "-",
+    "stock": 5000,
+    "code": "SER-0158",
+    "status": true
+  },
+  {
+    "id": 17,
+    "name": "Manguera",
+    "price": 2000,
+    "discount": 15,
+    "category": "Jardin",
+    "description": "Manguera para regar las plantas",
+    "thumbnails": "-",
+    "stock": 20,
+    "code": "JAR-5997",
+    "status": true
+  },
+  {
+    "id": 18,
+    "name": "Manguera",
+    "price": 2000,
+    "discount": 15,
+    "category": "Jardin",
+    "description": "Manguera para regar las plantas",
+    "thumbnails": "-",
+    "stock": 20,
+    "code": "JAR-86484",
+    "status": true
+  },
+  {
+    "id": 19,
+    "name": "Mouse",
+    "price": 500,
+    "discount": 23,
+    "category": "Informatica",
+    "description": "Mouse para manejar la computadora",
+    "thumbnails": "-",
+    "stock": 30,
+    "code": "INF-2486",
+    "status": true
   }
 ]

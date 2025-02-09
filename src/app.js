@@ -56,6 +56,8 @@ io.on('connection', (socket) => {
         // Le avisamos a los otros usuarios que la lista de productos cambio
         const products = await productsManager.getProducts();
         io.emit('products history', products);
+        
+        socket.broadcast.emit("new product", product.name)
     })
     
     // Borro un producto
