@@ -51,7 +51,7 @@ const main = () => {
         $productBox.innerHTML = "";
         products.forEach(({ id, name, price, discount, category, description, thumbnails, stock, code, status }) => {
             $productBox.innerHTML += `
-                <div class="col-md-4 mb-4">
+                <div class="col-md-4 mb-4" style="margin: auto">
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">${name} (${id})</h5>
