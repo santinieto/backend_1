@@ -31,17 +31,41 @@ app.use('/api/carts', cartsRouter);
 
 // Websockets
 io.on('connection', (socket) => {
+    const productsManager = new ProductsManager(path.join(__dirname, "/public/data/products.json"));
+    
     // Logeo las conexiones
     console.log('Nuevo cliente conectado! >>>', socket.id);
     
     // Cuando un usuario nuevo se conecta, le paso la lista de productos
     socket.on("new user", async () => {
-        const productsManager = new ProductsManager(path.join(__dirname, "/public/data/products.json"));
         await productsManager.loadProducts();
         const products = await productsManager.getProducts();
         
         // Le mando la historia de mensajes al nuevo cliente
         socket.emit('products history', products)
+        
+        // Le avisamos a los otros usuarios que un nuevo usuario se conecto
+        socket.broadcast.emit('new user notification', socket.id);
+    })
+    
+    // Agregar un producto
+    socket.on("add product", async (product) => {
+        productsManager.addProduct(product)
+        console.log(`Peticion de agregado de producto ${product} ejecutada.`)
+        
+        // Le avisamos a los otros usuarios que la lista de productos cambio
+        const products = await productsManager.getProducts();
+        io.emit('products history', products);
+    })
+    
+    // Borro un producto
+    socket.on("delete product", async (id) => {
+        productsManager.deleteProduct(id)
+        console.log(`Peticion de eliminacion de producto ${id} ejecutada.`)
+        
+        // Le avisamos a los otros usuarios que la lista de productos cambio
+        const products = await productsManager.getProducts();
+        io.emit('products history', products);
     })
     
     // Logeo las desconexiones
