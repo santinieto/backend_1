@@ -9,6 +9,10 @@
         {{#each products}}
             <div class="col-md-4 mb-4" style="margin: auto">
                 <div class="card shadow-sm">
+                    <img src="{{#if thumbnails}}{{thumbnails}}{{else}}https://via.placeholder.com/150?text=No+Image{{/if}}" 
+                        class="card-img-top" 
+                        alt="Imagen de {{name}}" 
+                        style="height: 200px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title">{{name}} ({{id}})</h5>
                         <p class="card-text"><strong>Categoría:</strong> {{category}}</p>
