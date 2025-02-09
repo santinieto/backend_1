@@ -91,5 +91,16 @@ const main = () => {
             `;
         });
     });
+    
+    // Mando la notificacion de producto eliminado
+    socket.on("deleted product", (id) => {
+        Toastify({
+            text: `Se ha eliminado el producto ${id} del sistema!`,
+            duration: 3000,
+            style: {
+                background: "linear-gradient(to right, rgb(151, 31, 47), rgb(180, 60, 60), rgb(163, 23, 23))"
+            },
+        }).showToast();
+    })
 }
 main()
