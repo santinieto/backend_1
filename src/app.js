@@ -8,6 +8,10 @@ import viewsRouter from './routes/views.router.js';
 import ProductsManager from "./products_manager/products_manager.js";
 import path from "path";
 import __dirname from "./utils/dirname.js";
+import dotenv from "dotenv";
+import connectMongoDB from "./db/db.js";
+
+dotenv.config();
 
 const PORT = 8080;
 
@@ -24,6 +28,9 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./src/views");
 
+// Conexion con MongoDB
+connectMongoDB();
+
 // Endpoints
 app.use('/', viewsRouter);
 app.use('/api/products', productsRouter);
@@ -32,44 +39,44 @@ app.use('/api/carts', cartsRouter);
 // Websockets
 io.on('connection', (socket) => {
     const productsManager = new ProductsManager(path.join(__dirname, "/public/data/products.json"));
-    
+
     // Logeo las conexiones
     console.log('Nuevo cliente conectado! >>>', socket.id);
-    
+
     // Cuando un usuario nuevo se conecta, le paso la lista de productos
     socket.on("new user", async () => {
         await productsManager.loadProducts();
         const products = await productsManager.getProducts();
-        
+
         // Le mando la historia de mensajes al nuevo cliente
         socket.emit('products history', products)
-        
+
         // Le avisamos a los otros usuarios que un nuevo usuario se conecto
         socket.broadcast.emit('new user notification', socket.id);
     })
-    
+
     // Agregar un producto
     socket.on("add product", async (product) => {
         productsManager.addProduct(product)
         console.log(`Peticion de agregado de producto ${product} ejecutada.`)
-        
+
         // Le avisamos a los otros usuarios que la lista de productos cambio
         const products = await productsManager.getProducts();
         io.emit('products history', products);
         socket.broadcast.emit("new product", product.name)
     })
-    
+
     // Borro un producto
     socket.on("delete product", async (id) => {
         productsManager.deleteProduct(id)
         console.log(`Peticion de eliminacion de producto ${id} ejecutada.`)
-        
+
         // Le avisamos a los otros usuarios que la lista de productos cambio
         const products = await productsManager.getProducts();
         io.emit('products history', products);
         socket.broadcast.emit("deleted product", id)
     })
-    
+
     // Logeo las desconexiones
     socket.on('disconnect', () => {
         console.log('Usuario desconectado <<<', socket.id);
