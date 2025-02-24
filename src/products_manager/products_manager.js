@@ -1,4 +1,3 @@
-import fs from "fs";
 import Product from "../model/product.model.js";
 
 class ProductsManager {
@@ -27,7 +26,7 @@ class ProductsManager {
 
     async addProduct(product) {
         try {
-            const newProduct = await Product.create({ ...product });
+            const newProduct = await Product.insertOne({ ...product });
             console.log(
                 `Producto con ID ${newProduct.id} agregado correctamente.`
             );
@@ -66,17 +65,6 @@ class ProductsManager {
         } catch (error) {
             console.error("Error al eliminar producto:", error.message);
             return { deleted: null, err: error.message };
-        }
-    }
-
-    async saveProducts() {
-        try {
-            const products = await this.getProducts();
-            const data = JSON.stringify(products, null, 2);
-            await fs.promises.writeFile(this.pathFile, data, "utf-8");
-            console.log("Productos guardados correctamente.");
-        } catch (error) {
-            console.error("Error al guardar los productos:", error.message);
         }
     }
 }

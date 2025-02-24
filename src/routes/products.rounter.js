@@ -1,12 +1,9 @@
 import express from "express";
 import ProductsManager from "../products_manager/products_manager.js";
-import path from "path";
+import mongoose from "mongoose";
 import __dirname from "../utils/dirname.js";
 
-const productsManager = new ProductsManager(
-    path.join(__dirname, "/public/data/products.json")
-);
-
+const productsManager = new ProductsManager();
 const productsRouter = express.Router();
 
 // Middleware para manejar errores en funciones asíncronas
@@ -14,7 +11,17 @@ const asyncHandler = (fn) => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
 };
 
-// Endpoint GET para obtener todos los productos
+// Middleware para validar ObjectId de MongoDB
+const validateObjectId = (req, res, next) => {
+    const { pid } = req.params;
+    if (pid && !mongoose.Types.ObjectId.isValid(pid)) {
+        return res
+            .status(400)
+            .json({ error: "El ID del producto no es un ObjectId válido." });
+    }
+    next();
+};
+
 productsRouter.get(
     "/",
     asyncHandler(async (req, res) => {
@@ -28,9 +35,9 @@ productsRouter.get(
     })
 );
 
-// Endpoint GET para buscar un producto por ID
 productsRouter.get(
     "/:pid",
+    validateObjectId,
     asyncHandler(async (req, res) => {
         const { pid } = req.params;
         const { product, err } = await productsManager.getProductById(pid);
@@ -43,11 +50,11 @@ productsRouter.get(
     })
 );
 
-// Endpoint POST para agregar un producto
 productsRouter.post(
     "/",
     asyncHandler(async (req, res) => {
         // Todos los campos son obligatorios a excepción de thumbnails
+        // El ID lo genera automaticamente NoSQL
         const requiredFields = [
             "name",
             "price",
@@ -83,9 +90,9 @@ productsRouter.post(
     })
 );
 
-// Endpoint PUT para actualizar un producto existente
 productsRouter.put(
     "/:pid",
+    validateObjectId,
     asyncHandler(async (req, res) => {
         const { updatedProduct, err } = await productsManager.updateProduct(
             req.params.pid,
@@ -101,9 +108,9 @@ productsRouter.put(
     })
 );
 
-// Endpoint DELETE para eliminar un producto existente
 productsRouter.delete(
     "/:pid",
+    validateObjectId,
     asyncHandler(async (req, res) => {
         const { deleted, err } = await productsManager.deleteProduct(
             req.params.pid
