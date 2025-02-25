@@ -21,4 +21,16 @@ viewsRouter.get("/realtimeproducts", (req, res) => {
     res.render("realtimeproducts");
 });
 
+viewsRouter.get("/product/:pid", async (req, res) => {
+    const { product, err } = await productsManager.getProductById(
+        req.params.pid
+    );
+
+    if (err) {
+        return res.status(404).json({ message: err });
+    }
+
+    res.render("product_info", { product: product.toObject() });
+});
+
 export default viewsRouter;

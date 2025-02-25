@@ -1,6 +1,6 @@
 <div class="container mt-5">
     <div class="card shadow p-4">
-        <h1 class="text-center mb-4">Pre-entrega 2</h1>
+        <h1 class="text-center mb-4">CoderShop</h1>
     </div>
 
     <div id="products-box" class="mt-4 d-flex border p-3 rounded bg-white"
@@ -8,10 +8,8 @@
         {{#each response.docs}}
             <div class="col-md-4 mb-4" style="margin: auto">
                 <div class="card shadow-sm">
-                    <img src="{{#if this.thumbnails}}{{this.thumbnails}}{{else}}img/image-not-found.jpg{{/if}}"
-                        class="card-img-top"
-                        alt="Imagen de {{this.name}}"
-                        style="height: 400px; object-fit: cover;">
+                    <img src="{{#if this.thumbnails}}{{this.thumbnails}}{{else}}/img/image-not-found.jpg{{/if}}" class="card-img-top"
+                        alt="Imagen de {{this.name}}" style="height: 400px; object-fit: cover;">
                     <div class="card-body">
                         <h5 class="card-title">{{this.name}} ({{this._id}})</h5>
                         <p class="card-text"><strong>Categoría:</strong> {{this.category}}</p>
@@ -25,6 +23,7 @@
                                 {{#if this.status}}Disponible{{else}}Agotado{{/if}}
                             </span>
                         </p>
+                        <a href="/product/{{this._id}}" class="btn btn-primary mx-2">Mas información</a>
                     </div>
                 </div>
             </div>
