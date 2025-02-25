@@ -25,11 +25,6 @@ const validateObjectId = (req, res, next) => {
 productsRouter.get(
     "/",
     asyncHandler(async (req, res) => {
-        const page = parseInt(req.query.page) || 1;
-        const limit = parseInt(req.query.limit) || 20;
-        const order = req.query.order || "asc";
-        const sort = req.query.sort || "category";
-
         const products = await productsManager.getProducts();
         res.json(products);
     })
