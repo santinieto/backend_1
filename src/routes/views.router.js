@@ -39,6 +39,7 @@ viewsRouter.get("/realtimeproducts", (req, res) => {
 });
 
 viewsRouter.get("/products/:pid", async (req, res) => {
+    console.log("Llamada con productId", req.params.pid);
     const { product, err } = await productsManager.getProductById(
         req.params.pid
     );
@@ -47,7 +48,7 @@ viewsRouter.get("/products/:pid", async (req, res) => {
         return res.status(404).json({ message: err });
     }
 
-    res.render("product_info", { product: product.toObject() });
+    res.render("product_info", { product: product });
 });
 
 viewsRouter.get("/carts/:cid", async (req, res) => {
