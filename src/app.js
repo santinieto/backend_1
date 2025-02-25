@@ -46,7 +46,10 @@ io.on("connection", (socket) => {
     // Cuando un usuario nuevo se conecta, le paso la lista de productos
     socket.on("new user", async () => {
         // await productsManager.loadProducts();
-        const products = await productsManager.getProducts();
+        const response = await productsManager.getProducts();
+
+        // Convertir manualmente a objetos planos
+        const products = response.map((product) => product.toObject());
 
         // Le mando la historia de mensajes al nuevo cliente
         socket.emit("products history", products);
@@ -57,22 +60,30 @@ io.on("connection", (socket) => {
 
     // Agregar un producto
     socket.on("add product", async (product) => {
-        productsManager.addProduct(product);
+        await productsManager.addProduct(product);
         console.log(`Peticion de agregado de producto ${product} ejecutada.`);
 
         // Le avisamos a los otros usuarios que la lista de productos cambio
-        const products = await productsManager.getProducts();
+        const response = await productsManager.getProducts();
+
+        // Convertir manualmente a objetos planos
+        const products = response.map((product) => product.toObject());
+
         io.emit("products history", products);
         socket.broadcast.emit("new product", product.name);
     });
 
     // Borro un producto
     socket.on("delete product", async (id) => {
-        productsManager.deleteProduct(id);
+        await productsManager.deleteProduct(id);
         console.log(`Peticion de eliminacion de producto ${id} ejecutada.`);
 
         // Le avisamos a los otros usuarios que la lista de productos cambio
-        const products = await productsManager.getProducts();
+        const response = await productsManager.getProducts();
+
+        // Convertir manualmente a objetos planos
+        const products = response.map((product) => product.toObject());
+
         io.emit("products history", products);
         socket.broadcast.emit("deleted product", id);
     });

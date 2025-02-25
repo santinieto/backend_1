@@ -2,26 +2,26 @@
     <div class="card shadow p-4">
         <h1 class="text-center mb-4">Pre-entrega 2</h1>
     </div>
-        
-    <div id="products-box" class="mt-4 d-flex border p-3 rounded bg-white" 
+
+    <div id="products-box" class="mt-4 d-flex border p-3 rounded bg-white"
         style="overflow-y: auto; gap: 10px; flex-wrap: wrap;">
-        
+
         {{#each products}}
             <div class="col-md-4 mb-4" style="margin: auto">
                 <div class="card shadow-sm">
-                    <img src="{{#if thumbnails}}{{thumbnails}}{{else}}img/image-not-found.jpg{{/if}}" 
-                        class="card-img-top" 
-                        alt="Imagen de {{name}}" 
+                    <img src="{{#if thumbnails}}{{thumbnails}}{{else}}img/image-not-found.jpg{{/if}}"
+                        class="card-img-top"
+                        alt="Imagen de {{name}}"
                         style="height: 400px; object-fit: cover;">
                     <div class="card-body">
-                        <h5 class="card-title">{{name}} ({{id}})</h5>
+                        <h5 class="card-title">{{name}} ({{_id}})</h5>
                         <p class="card-text"><strong>Categoría:</strong> {{category}}</p>
                         <p class="card-text"><strong>Descripción:</strong> {{description}}</p>
                         <p class="card-text"><strong>Precio:</strong> ${{price}}</p>
                         <p class="card-text"><strong>Descuento:</strong> {{discount}}%</p>
                         <p class="card-text"><strong>Stock:</strong> {{stock}} unidades</p>
                         <p class="card-text"><strong>Código:</strong> {{code}}</p>
-                        <p class="card-text"><strong>Estado:</strong> 
+                        <p class="card-text"><strong>Estado:</strong>
                             <span class="badge {{#if status}}bg-success{{else}}bg-danger{{/if}}">
                                 {{#if status}}Disponible{{else}}Agotado{{/if}}
                             </span>
@@ -30,7 +30,7 @@
                 </div>
             </div>
         {{/each}}
-        
+
     </div>
 </div>
 
