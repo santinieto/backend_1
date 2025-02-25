@@ -118,6 +118,32 @@ cartsRouter.post("/:cid/products/:id", validateObjectId, async (req, res) => {
     }
 });
 
+cartsRouter.put("/:cid", validateObjectId, async (req, res) => {
+    try {
+        const { cid } = req.params;
+        const products = req.body;
+
+        const result = await cartsManager.updateCart(cid, products);
+
+        if (!result || result.err) {
+            return res.status(404).json({
+                message: "Error al actualizar el carrito.",
+                error: result?.err,
+            });
+        }
+
+        res.status(200).json({
+            message: "Carrito actualizado correctamente.",
+            cart: result.cart,
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Error al actualizar el carrito.",
+            error: error.message,
+        });
+    }
+});
+
 cartsRouter.delete("/:cid", validateObjectId, async (req, res) => {
     try {
         const { cid } = req.params;
