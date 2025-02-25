@@ -38,7 +38,7 @@ viewsRouter.get("/realtimeproducts", (req, res) => {
     res.render("realtimeproducts");
 });
 
-viewsRouter.get("/product/:pid", async (req, res) => {
+viewsRouter.get("/products/:pid", async (req, res) => {
     const { product, err } = await productsManager.getProductById(
         req.params.pid
     );
@@ -48,6 +48,16 @@ viewsRouter.get("/product/:pid", async (req, res) => {
     }
 
     res.render("product_info", { product: product.toObject() });
+});
+
+viewsRouter.get("/carts/:cid", async (req, res) => {
+    const { cart, err } = await cartsManager.getCartById(req.params.cid);
+
+    if (err) {
+        return res.status(404).json({ message: err });
+    }
+
+    res.render("cart_info", { cart: cart.toObject() });
 });
 
 export default viewsRouter;

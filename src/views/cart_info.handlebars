@@ -1,0 +1,21 @@
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h1 class="text-center mb-4">Informacion del carrito {{cart._id}}</h1>
+    </div>
+
+    <div class="mt-4 d-flex border p-3 rounded bg-white" style="overflow-y: auto; gap: 10px; flex-wrap: wrap;">
+        <div class="col-md-4 mb-4" style="margin: auto">
+            <ul>
+                {{#each cart.products}}
+                <li>
+                    Producto {{this._id}} - Cantidad {{this.quantity}}
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </div>
+
+    <div class="mt-4 d-flex border p-3 rounded bg-white" style="justify-content: center">
+        <a href="/" class="btn btn-primary mx-2">Volver</a>
+    </div>
+</div>

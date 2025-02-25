@@ -27,6 +27,7 @@ const main = () => {
 
                 if (response.ok) {
                     alert("Producto agregado al carrito correctamente.");
+                    window.location.replace(`/carts/${cartId}`);
                 } else {
                     const errorData = await response.json();
                     alert(`Error: ${errorData.message}`);
