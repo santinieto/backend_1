@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import paginate from "mongoose-paginate-v2";
 
 const productSchema = new mongoose.Schema({
     name: { type: String, required: true },
@@ -12,6 +13,9 @@ const productSchema = new mongoose.Schema({
     status: { type: Boolean, default: true },
     created_at: { type: Date, default: Date.now() },
 });
+
+// Agrego la paginacion a los productos
+productSchema.plugin(paginate);
 
 const Product = mongoose.model("Product", productSchema);
 

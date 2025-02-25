@@ -5,33 +5,44 @@
 
     <div id="products-box" class="mt-4 d-flex border p-3 rounded bg-white"
         style="overflow-y: auto; gap: 10px; flex-wrap: wrap;">
-
-        {{#each products}}
+        {{#each response.docs}}
             <div class="col-md-4 mb-4" style="margin: auto">
                 <div class="card shadow-sm">
-                    <img src="{{#if thumbnails}}{{thumbnails}}{{else}}img/image-not-found.jpg{{/if}}"
+                    <img src="{{#if this.thumbnails}}{{this.thumbnails}}{{else}}img/image-not-found.jpg{{/if}}"
                         class="card-img-top"
-                        alt="Imagen de {{name}}"
+                        alt="Imagen de {{this.name}}"
                         style="height: 400px; object-fit: cover;">
                     <div class="card-body">
-                        <h5 class="card-title">{{name}} ({{_id}})</h5>
-                        <p class="card-text"><strong>Categoría:</strong> {{category}}</p>
-                        <p class="card-text"><strong>Descripción:</strong> {{description}}</p>
-                        <p class="card-text"><strong>Precio:</strong> ${{price}}</p>
-                        <p class="card-text"><strong>Descuento:</strong> {{discount}}%</p>
-                        <p class="card-text"><strong>Stock:</strong> {{stock}} unidades</p>
-                        <p class="card-text"><strong>Código:</strong> {{code}}</p>
+                        <h5 class="card-title">{{this.name}} ({{this._id}})</h5>
+                        <p class="card-text"><strong>Categoría:</strong> {{this.category}}</p>
+                        <p class="card-text"><strong>Descripción:</strong> {{this.description}}</p>
+                        <p class="card-text"><strong>Precio:</strong> ${{this.price}}</p>
+                        <p class="card-text"><strong>Descuento:</strong> {{this.discount}}%</p>
+                        <p class="card-text"><strong>Stock:</strong> {{this.stock}} unidades</p>
+                        <p class="card-text"><strong>Código:</strong> {{this.code}}</p>
                         <p class="card-text"><strong>Estado:</strong>
-                            <span class="badge {{#if status}}bg-success{{else}}bg-danger{{/if}}">
-                                {{#if status}}Disponible{{else}}Agotado{{/if}}
+                            <span class="badge {{#if this.status}}bg-success{{else}}bg-danger{{/if}}">
+                                {{#if this.status}}Disponible{{else}}Agotado{{/if}}
                             </span>
                         </p>
                     </div>
                 </div>
             </div>
         {{/each}}
-
     </div>
+
+    <div class="mt-4 d-flex border p-3 rounded bg-white" style="justify-content: center">
+        {{#if response.hasPrevPage}}
+            <a href="?page={{response.prevPage}}" class="btn btn-primary mx-2">Página anterior</a>
+        {{/if}}
+
+        <span class="mx-3 align-self-center">Página {{response.page}} de {{response.totalPages}}</span>
+
+        {{#if response.hasNextPage}}
+            <a href="?page={{response.nextPage}}" class="btn btn-primary mx-2">Página siguiente</a>
+        {{/if}}
+    </div>
+
 </div>
 
 <script src="/js/home.js" ></script>

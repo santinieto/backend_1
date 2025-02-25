@@ -10,6 +10,24 @@ class ProductsManager {
         }
     }
 
+    async getPaginatedProducts(limit, page) {
+        try {
+            return await Product.paginate(
+                {
+                    /* No usamos filtros */
+                },
+                {
+                    limit: limit,
+                    page: page,
+                    lean: true,
+                }
+            );
+        } catch (error) {
+            console.error("Error al obtener productos con paginacion:", error.message);
+            return { products: [], err: "Error al obtener productos." };
+        }
+    }
+
     async getProductById(id) {
         try {
             const products = await this.getProducts();

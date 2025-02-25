@@ -7,12 +7,14 @@ const productsManager = new ProductsManager();
 
 // Ruta raiz
 viewsRouter.get("/", async (req, res) => {
-    const response = await productsManager.getProducts();
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const order = req.query.order || "asc";
+    const sort = req.query.sort || "category";
 
-    // Convertir manualmente a objetos planos
-    const products = response.map((product) => product.toObject());
+    const response = await productsManager.getPaginatedProducts(limit, page);
 
-    res.render("home", { products });
+    res.render("home", { response });
 });
 
 viewsRouter.get("/realtimeproducts", (req, res) => {
