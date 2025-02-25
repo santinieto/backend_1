@@ -7,12 +7,17 @@ const productsManager = new ProductsManager();
 
 // Ruta raiz
 viewsRouter.get("/", async (req, res) => {
-    const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
-    const order = req.query.order || "asc";
-    const sort = req.query.sort || "category";
+    const page = parseInt(req.query.page) || 1;
+    const sort = req.query.sort || "asc";
+    const query = req.query.order || "";
 
-    const response = await productsManager.getPaginatedProducts(limit, page);
+    const response = await productsManager.getPaginatedProducts(
+        page,
+        limit,
+        sort,
+        query
+    );
 
     res.render("home", { response });
 });
