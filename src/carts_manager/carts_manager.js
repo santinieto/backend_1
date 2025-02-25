@@ -77,6 +77,42 @@ class CartsManager {
         }
     }
 
+    async updateCart(cartId, products) {
+        try {
+            const cart = await Cart.findById(cartId);
+            if (!cart) {
+                return { err: `Carrito con ID ${cartId} no encontrado.` };
+            }
+
+            // Limpio el carrito de lo que tenga
+            cart.products = [];
+
+            // Agrego los productos al carrito
+            products.forEach((product) => {
+                const existingProduct = cart.products.find(
+                    (p) => p.id.toString() === product.id
+                );
+
+                if (existingProduct) {
+                    // Si el producto ya está en el carrito, aumentar la cantidad
+                    existingProduct.quantity += product.quantity;
+                } else {
+                    // Si el producto no está en el carrito, agregarlo con cantidad 1
+                    cart.products.push({
+                        id: product.id,
+                        quantity: product.quantity,
+                    });
+                }
+            });
+
+            await cart.save();
+            return { err: null, cart };
+        } catch (error) {
+            console.error("Error al actualizar el carrito:", error.message);
+            return { deleted: null, err: "Error al actualizar el carrito." };
+        }
+    }
+
     async deleteCart(cartId) {
         try {
             const deleted = await Cart.updateOne(
