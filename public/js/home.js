@@ -1,9 +1,19 @@
 const main = () => {
     const $productBox = document.getElementById("products-box");
+    const $goToProductButtons = document.querySelectorAll(
+        "button[id^='go-to-product-']"
+    );
     const $addToCartButtons = document.querySelectorAll(
         "button[id^='add-to-cart-']"
     );
     const $cartSelect = document.getElementById("cart-select");
+
+    $goToProductButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+            const productId = button.id.replace("go-to-product-", "");
+            window.location.replace(`/products/${productId}`);
+        });
+    });
 
     $addToCartButtons.forEach((button) => {
         button.addEventListener("click", async () => {

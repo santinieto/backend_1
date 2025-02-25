@@ -33,8 +33,7 @@ class ProductsManager {
 
     async getProductById(id) {
         try {
-            const products = await this.getProducts();
-            const product = products.find((product) => product.id == id);
+            const product = await Product.findById(id).lean();
             if (!product) {
                 throw new Error(`Producto con ID ${id} no encontrado.`);
             }
