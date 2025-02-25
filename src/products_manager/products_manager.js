@@ -10,7 +10,7 @@ class ProductsManager {
         }
     }
 
-    async getPaginatedProducts(limit, page) {
+    async getPaginatedProducts(page, limit, sort, query) {
         try {
             return await Product.paginate(
                 {
@@ -23,7 +23,10 @@ class ProductsManager {
                 }
             );
         } catch (error) {
-            console.error("Error al obtener productos con paginacion:", error.message);
+            console.error(
+                "Error al obtener productos con paginacion:",
+                error.message
+            );
             return { products: [], err: "Error al obtener productos." };
         }
     }

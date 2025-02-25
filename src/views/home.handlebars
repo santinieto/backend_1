@@ -32,13 +32,13 @@
 
     <div class="mt-4 d-flex border p-3 rounded bg-white" style="justify-content: center">
         {{#if response.hasPrevPage}}
-            <a href="?page={{response.prevPage}}" class="btn btn-primary mx-2">Página anterior</a>
+            <a href="?page={{response.prevPage}}&limit={{response.limit}}" class="btn btn-primary mx-2">Página anterior</a>
         {{/if}}
 
         <span class="mx-3 align-self-center">Página {{response.page}} de {{response.totalPages}}</span>
 
         {{#if response.hasNextPage}}
-            <a href="?page={{response.nextPage}}" class="btn btn-primary mx-2">Página siguiente</a>
+            <a href="?page={{response.nextPage}}&limit={{response.limit}}" class="btn btn-primary mx-2">Página siguiente</a>
         {{/if}}
     </div>
 
