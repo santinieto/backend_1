@@ -2,13 +2,9 @@ import express from "express";
 import { engine } from "express-handlebars";
 import { createServer } from "http";
 import { Server } from "socket.io";
-import path from "path";
-import __dirname from "./utils/dirname.js";
 import connectMongoDB from "./db/db.js";
-
-import productsRouter from "./routes/products.rounter.js";
-import cartsRouter from "./routes/carts.router.js";
-import viewsRouter from "./routes/views.router.js";
+import appRouter from "./routes/app.router.js";
+import errorHandler from "./middlewares/error_handler.mid.js";
 import ProductsManager from "./products_manager/products_manager.js";
 
 const PORT = 8080;
@@ -26,19 +22,15 @@ app.engine("handlebars", engine());
 app.set("view engine", "handlebars");
 app.set("views", "./src/views");
 
-// Conexion con MongoDB
-connectMongoDB();
-
 // Endpoints
-app.use("/", viewsRouter);
-app.use("/api/products", productsRouter);
-app.use("/api/carts", cartsRouter);
+app.use("/", appRouter);
+
+// Manejo de errores
+app.use(errorHandler);
 
 // Websockets
 io.on("connection", (socket) => {
-    const productsManager = new ProductsManager(
-        path.join(__dirname, "/public/data/products.json")
-    );
+    const productsManager = new ProductsManager();
 
     // Logeo las conexiones
     console.log("Nuevo cliente conectado! >>>", socket.id);
@@ -94,9 +86,14 @@ io.on("connection", (socket) => {
     });
 });
 
-server.listen(PORT, () => {
-    // Ojo aca que habia puesto app.listen()
+const serverReady = () => {
     console.log(
         `Servicio iniciado en el puerto ${PORT}... http://localhost:${PORT}`
     );
-});
+
+    // Conexion con MongoDB
+    connectMongoDB();
+};
+
+// Ojo aca que habia puesto app.listen()
+server.listen(PORT, serverReady);

@@ -61,4 +61,14 @@ viewsRouter.get("/carts/:cid", async (req, res) => {
     res.render("cart_info", { cart: cart.toObject() });
 });
 
+// Pagina de login
+viewsRouter.get("/login", (req, res) => {
+    res.render("login");
+});
+
+// Pagina de creacion de usuarios
+viewsRouter.get("/register", (req, res) => {
+    res.render("register");
+});
+
 export default viewsRouter;
