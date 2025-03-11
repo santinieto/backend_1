@@ -6,6 +6,7 @@ import connectMongoDB from "./db/db.js";
 import appRouter from "./routes/app.router.js";
 import errorHandler from "./middlewares/error_handler.mid.js";
 import ProductsManager from "./products_manager/products_manager.js";
+import session from "express-session";
 
 const PORT = 8080;
 
@@ -16,6 +17,18 @@ const io = new Server(server);
 app.use(express.json()); // Middleware para parsear JSON en el body de las requests
 app.use(express.urlencoded({ extended: true })); // Middleware para parsear datos de formularios en el body de las requests
 app.use(express.static("public")); // Middleware para servir archivos estáticos
+
+// Configuracion de sesiones
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET,
+        resave: true, // true: siempre activa, false: muerte por inactividad
+        saveUninitialized: true, // true: guarda cualquier cosa, false: no guarda sesiones vacias
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 7, // 1 semana
+        },
+    })
+);
 
 // Handlebars
 app.engine("handlebars", engine());

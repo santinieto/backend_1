@@ -15,24 +15,27 @@ const main = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    firstName,
-                    lastName,
+                    first_name: firstName,
+                    last_name: lastName,
                     username,
                     password,
                     email,
                 }),
             });
             const data = await response.json();
-            console.log(data);
+
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
 
             // Guardo el usaurio en el localStorage
             // localStorage.setItem("userId", data.payload._id);
 
             // Usuario creado
-            console.log("Usuario creado");
+            alert(`Usuario creado ${data.user.username} exitosamente.`);
 
             // Mando al usuario a la pagina de inicio
-            // window.location.href = "/";
+            window.location.href = "/login";
         } catch (error) {
             alert(`Error al registrar el usuario: ${error.message}`);
         }

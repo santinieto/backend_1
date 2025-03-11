@@ -8,24 +8,30 @@ const main = () => {
             const password = document.getElementById("password").value;
             const response = await fetch("/api/users/login", {
                 method: "POST",
-                header: {
+                headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ username, password }),
+                body: JSON.stringify({
+                    username,
+                    password,
+                }),
             });
             const data = await response.json();
-            console.log(data);
+
+            if (!response.ok) {
+                throw new Error(data.message);
+            }
 
             // Guardo el usaurio en el localStorage
             // localStorage.setItem("userId", data.payload._id);
 
-            // Usuario creado
-            console.log("Usuario creado");
+            // Usuario logeado
+            alert(`Bienvenido ${data.user.username}!.`);
 
             // Mando al usuario a la pagina de inicio
             window.location.href = "/";
         } catch (error) {
-            alert(`Error al registrar el usuario: ${error.message}`);
+            alert(`Error durante el logeo del usuario: ${error.message}`);
         }
     });
 };
