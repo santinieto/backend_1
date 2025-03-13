@@ -29,7 +29,7 @@ const main = () => {
             alert(`Bienvenido ${data.user.username}!.`);
 
             // Mando al usuario a la pagina de inicio
-            window.location.href = "/";
+            window.location.href = "/products";
         } catch (error) {
             alert(`Error durante el logeo del usuario: ${error.message}`);
         }

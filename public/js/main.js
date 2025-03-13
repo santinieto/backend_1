@@ -2,8 +2,6 @@ const isOnline = async () => {
     try {
         const response = await fetch("/api/users/session");
         return response.ok;
-
-        // Renderizar las opciones correctas +  el SignOut
     } catch (error) {
         return false;
     }
@@ -26,6 +24,12 @@ const navbarMain = async () => {
             `;
         } else {
             $navbar.innerHTML = `
+                <li class="nav-item">
+                    <a class="nav-link" href="/products">Products</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/realtimeproducts">Real Time Products</a>
+                </li>
                 <li class="nav-item">
                     <a id = "logout-btn" class="nav-link" href="/logout">SignOut</a>
                 </li>

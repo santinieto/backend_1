@@ -8,7 +8,12 @@ const cartsManager = new CartsManager();
 const productsManager = new ProductsManager();
 
 // Ruta raiz
-viewsRouter.get("/", async (req, res) => {
+viewsRouter.get("/", (req, res) => {
+    res.render("home");
+});
+
+// Ruta de productos
+viewsRouter.get("/products", async (req, res) => {
     const limit = parseInt(req.query.limit) || 10;
     const page = parseInt(req.query.page) || 1;
     const sort = req.query.sort || "asc";
@@ -31,7 +36,7 @@ viewsRouter.get("/", async (req, res) => {
         query
     );
 
-    res.render("home", { products, cartIds });
+    res.render("products", { products, cartIds });
 });
 
 viewsRouter.get("/realtimeproducts", (req, res) => {
