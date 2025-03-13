@@ -43,27 +43,70 @@ viewsRouter.get("/realtimeproducts", (req, res) => {
     res.render("realtimeproducts");
 });
 
-viewsRouter.get("/products/:pid", async (req, res) => {
-    console.log("Llamada con productId", req.params.pid);
-    const { product, err } = await productsManager.getProductById(
-        req.params.pid
-    );
-
+viewsRouter.get("/product-info/:pid?", async (req, res) => {
+    const { products, err } = await productsManager.getProducts();
     if (err) {
         return res.status(404).json({ message: err });
     }
 
-    res.render("product_info", { product: product });
+    const productIds = products.map((product) => product._id.toString());
+
+    // Si no se recibe un ID, usar el primer producto disponible
+    const selectedId =
+        req.params.pid && req.params.pid !== "?"
+            ? req.params.pid
+            : productIds[0];
+    const selectedProduct = products.find(
+        (product) => product._id.toString() === selectedId
+    );
+
+    if (!selectedProduct) {
+        return res.status(404).json({ message: "Producto no encontrado." });
+    }
+
+    res.render("product_info", {
+        product: selectedProduct.toObject(),
+        productIds,
+    });
+});
+
+viewsRouter.get("/cart-info/:cid?", async (req, res) => {
+    const { carts, err } = await cartsManager.getCarts();
+    if (err) {
+        return res.status(404).json({ message: err });
+    }
+    const cartIds = carts.map((cart) => cart._id.toString());
+
+    // Si no se recibe un ID, usar el primer carrito disponible
+    const selectedId =
+        req.params.cid && req.params.cid !== "?" ? req.params.cid : cartIds[0];
+    const selectedCart = carts.find(
+        (cart) => cart._id.toString() === selectedId
+    );
+    if (!selectedCart) {
+        return res.status(404).json({ message: "Carrito no encontrado." });
+    }
+
+    res.render("cart_info", { cart: selectedCart.toObject(), cartIds });
 });
 
 viewsRouter.get("/carts/:cid", async (req, res) => {
-    const { cart, err } = await cartsManager.getCartById(req.params.cid);
-
+    const { carts, err } = await cartsManager.getCarts();
     if (err) {
         return res.status(404).json({ message: err });
     }
 
-    res.render("cart_info", { cart: cart.toObject() });
+    const cartIds = carts.map((cart) => cart._id.toString());
+
+    const selectedCart = carts.find(
+        (cart) => cart._id.toString() === req.params.cid
+    );
+
+    if (!selectedCart) {
+        return res.status(404).json({ message: "Carrito no encontrado." });
+    }
+
+    res.render("cart_info", { cart: selectedCart.toObject(), cartIds });
 });
 
 // Pagina de login

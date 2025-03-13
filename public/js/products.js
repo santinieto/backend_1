@@ -11,7 +11,7 @@ const main = () => {
     $goToProductButtons.forEach((button) => {
         button.addEventListener("click", () => {
             const productId = button.id.replace("go-to-product-", "");
-            window.location.replace(`/products/${productId}`);
+            window.location.replace(`/product-info/${productId}`);
         });
     });
 
@@ -37,7 +37,7 @@ const main = () => {
 
                 if (response.ok) {
                     alert("Producto agregado al carrito correctamente.");
-                    window.location.replace(`/carts/${cartId}`);
+                    window.location.replace(`/cart-info/${cartId}`);
                 } else {
                     const errorData = await response.json();
                     alert(`Error: ${errorData.message}`);

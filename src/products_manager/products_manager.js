@@ -3,7 +3,8 @@ import Product from "../model/product.model.js";
 class ProductsManager {
     async getProducts() {
         try {
-            return await Product.find();
+            const products = await Product.find();
+            return { products, err: null };
         } catch (error) {
             console.error("Error al obtener productos:", error.message);
             return { products: [], err: "Error al obtener productos." };

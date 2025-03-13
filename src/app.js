@@ -50,11 +50,11 @@ io.on("connection", (socket) => {
 
     // Cuando un usuario nuevo se conecta, le paso la lista de productos
     socket.on("new user", async () => {
-        // await productsManager.loadProducts();
-        const response = await productsManager.getProducts();
-
         // Convertir manualmente a objetos planos
-        const products = response.map((product) => product.toObject());
+        const { products, err } = await productsManager.getProducts();
+        if (err) {
+            console.log(err.message);
+        }
 
         // Le mando la historia de mensajes al nuevo cliente
         socket.emit("products history", products);

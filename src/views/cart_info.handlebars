@@ -3,6 +3,20 @@
         <h1 class="text-center mb-4">Informacion del carrito {{cart._id}}</h1>
     </div>
 
+    <!-- Menú desplegable para seleccionar carrito -->
+    <div class="mt-3">
+        <label for="cart-select" class="form-label">Selecciona un carrito:</label>
+        <div class="d-flex align-items-center">
+            <select id="cart-select" class="form-select w-auto">
+                <option value="">Seleccione un carrito</option>
+                {{#each cartIds}}
+                <option value="{{this}}">Carrito {{this}}</option>
+                {{/each}}
+            </select>
+            <button class="btn btn-primary ms-2" id="view-cart">Ver</button>
+        </div>
+    </div>
+
     <div class="mt-4 d-flex border p-3 rounded bg-white" style="overflow-y: auto; gap: 10px; flex-wrap: wrap;">
         <div class="col-md-4 mb-4" style="margin: auto">
             <ul>
@@ -19,3 +33,5 @@
         <a href="/" class="btn btn-primary mx-2">Volver</a>
     </div>
 </div>
+
+<script src="/js/cart_info.js"></script>

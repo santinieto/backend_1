@@ -31,6 +31,12 @@ const navbarMain = async () => {
                     <a class="nav-link" href="/realtimeproducts">Real Time Products</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/product-info/?">Info Productos</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/cart-info/?">Info Carritos</a>
+                </li>
+                <li class="nav-item">
                     <a id = "logout-btn" class="nav-link" href="/logout">SignOut</a>
                 </li>
             `;
